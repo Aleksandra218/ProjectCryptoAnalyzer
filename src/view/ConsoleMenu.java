@@ -24,21 +24,26 @@ public class ConsoleMenu {
         while (true) {
             outputMenu();
             int choice = InputValidator.choiceMenu();
-            if (choice == 1) {
-                System.out.print("Введите путь к файлу для чтения c оригинальным текстом: "); //путь без кавычек с обеих сторон иначе валидатор не примет
-                String filePath = InputValidator.filePath();
-                applicationService.encryptFile(filePath);
-            } else if (choice == 2) {
-                System.out.print("Введите путь к файлу с зашифрованным текстом: "); //путь без кавычек с обеих сторон иначе валидатор не примет
-                String filePath = InputValidator.filePath();
-                applicationService.decryptFile(filePath);
-            } else if (choice == 3) {
-                System.out.print("Введите путь к файлу с зашифрованным текстом: "); //путь без кавычек с обеих сторон иначе валидатор не примет
-                String filePath = InputValidator.filePath();
-                applicationService.bruteForceFile(filePath);
-            } else {
-                System.out.println("Программа завершена! Всего доброго!");
-                return;
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("Введите путь к файлу для чтения c оригинальным текстом: ");
+                    String filePath = InputValidator.filePath();
+                    applicationService.encryptFile(filePath);
+                }
+                case 2 -> {
+                    System.out.print("Введите путь к файлу с зашифрованным текстом: ");
+                    String filePath = InputValidator.filePath();
+                    applicationService.decryptFile(filePath);
+                }
+                case 3 -> {
+                    System.out.print("Введите путь к файлу с зашифрованным текстом: ");
+                    String filePath = InputValidator.filePath();
+                    applicationService.bruteForceFile(filePath);
+                }
+                default -> {
+                    System.out.println("Программа завершена! Всего доброго!");
+                    return;
+                }
             }
         }
     }

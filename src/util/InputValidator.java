@@ -14,13 +14,14 @@ public final class InputValidator {
 
 
     /**
-     * метод проверяет что строка не пустая и символы в одной строке
+     * метод проверяет что строка не пустая и путь лежит в одной строке
      *
      * @return корректный путь
      */
     public static String filePath() {
         while (true) {
             String filepath = scanner.nextLine().trim(); // Читаем ввод ОДИН раз
+            filepath = filepath.replaceAll("^['\"]|['\"]$", ""); //удаляем кавычки если путь копируем с компьютера
 
             if (filepath.contains("\n") || filepath.contains("\r")) {
                 scanner = new Scanner(System.in); // Сброс сканера
@@ -44,18 +45,18 @@ public final class InputValidator {
     /**
      * метод проверяет что путь от пользователя соответствует правилам, не
      * принимает путь скопированный из компьютера в кавычках с обеих сторон
-     * @param str принимает строку
+     * @param inputPath принимает строку
      * @return корректный путь к файлу
      */
-    public static boolean isFilePath(String str) {
+    public static boolean isFilePath(String inputPath) {
         // 1. Не пустая и не слишком короткая
-        if (str == null || str.length() < 3) return false;
+        if (inputPath == null || inputPath.length() < 3) return false;
 
         // 2. Содержит допустимые символы для пути (для Windows/Linux)
-        if (!str.matches("^[a-zA-Z0-9_\\-./:\\\\\\\\]+$")) return false;
+        if (!inputPath.matches("^[a-zA-Z0-9_\\-./:\\\\\\\\]+$")) return false;
 
         // 3. Имеет структуру пути (есть хотя бы один разделитель)
-        if (!str.contains("/") && !str.contains("\\") && !str.contains(":")) return false;
+        if (!inputPath.contains("/") && !inputPath.contains("\\") && !inputPath.contains(":")) return false;
 
         return true;
     }
