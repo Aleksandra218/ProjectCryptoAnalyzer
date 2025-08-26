@@ -1,13 +1,23 @@
 package service;
 
+/**
+ * Сервис для криптоанализа методом brutForce
+ */
 public class BrutForceService {
     // Не знает о файлах!
     /**
-     * Сервис для криптоанализа методом грубой силы
+     * Подбирает ключ шифра Цезаря методом полного перебора.
+     *
+     * <p>Перебирает все возможные ключи, сравнивая результат дешифрования с известным исходным текстом.
+     * Дешифрование символов делегируется {@link #getDecodingChar(int, char, String)}.
+     *
      * @param encryptedText зашифрованный текст
-     * @param origText оригинальный текст
-     * @param alphabet алфавит для обратного сдвига
-     * @return подобранный ключ и расшифрованный текст
+     * @param origText исходный текст для сравнения
+     * @param alphabet алфавит шифрования
+     *
+     * @return дешифрованный текст при успехе или сообщение об ошибке
+     *
+     * @see #getDecodingChar(int, char, String) метод дешифрования символов
      */
     public String brutForce(String encryptedText, String origText, String alphabet) {
         // Проверка входных данных
@@ -65,6 +75,15 @@ public class BrutForceService {
         return "Не удалось подобрать ключ";
     }
 
+    /**
+     * Дешифрует один символ сдвигом на key позиций влево по алфавиту.
+     *
+     * @param key ключ дешифрования (количество позиций для обратного сдвига)
+     * @param originChar символ для дешифрования (должен быть в нижнем регистре)
+     * @param alphabet алфавит для дешифрования
+     *
+     * @return дешифрованный символ или '\0' если символ не из алфавита
+     */
     private static char getDecodingChar(int key, char originChar, String alphabet) {
         int charEncryptPos = alphabet.indexOf(originChar);
 
