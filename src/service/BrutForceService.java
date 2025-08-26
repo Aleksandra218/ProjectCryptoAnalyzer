@@ -3,10 +3,10 @@ package service;
 public class BrutForceService {
     // Не знает о файлах!
     /**
-     * Принимает зашифрованный текст, перебирает ключи
-     * @param encryptedText
-     * @param origText
-     * @param alphabet
+     * Сервис для криптоанализа методом грубой силы
+     * @param encryptedText зашифрованный текст
+     * @param origText оригинальный текст
+     * @param alphabet алфавит для обратного сдвига
      * @return подобранный ключ и расшифрованный текст
      */
     public String brutForce(String encryptedText, String origText, String alphabet) {

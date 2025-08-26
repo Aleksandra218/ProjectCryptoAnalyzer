@@ -1,9 +1,12 @@
 package view;
 
 import service.*;
+import util.InputValidator;
 
-import java.io.IOException;
-
+/**
+ * Показать пункты меню, принять выбор пользователя,
+ * запросить нужные данные (путь к файлу, ключ) и вызвать один из методов
+ */
 public class ConsoleMenu {
 
     private ApplicationService applicationService;
@@ -12,8 +15,10 @@ public class ConsoleMenu {
         this.applicationService = applicationService;
     }
 
-
-    public void start() throws IOException {
+    /**
+     * старт проекта
+     */
+    public void start() {
         System.out.println("Добро пожаловать в криптоанализатор!\n");
 
         while (true) {
@@ -38,6 +43,9 @@ public class ConsoleMenu {
         }
     }
 
+    /**
+     * выводит меню
+     */
     private static void outputMenu() {
         System.out.print("Меню\n" +
                 "1. Шифрование\n" +
