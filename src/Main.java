@@ -1,7 +1,6 @@
 import service.*;
 import view.ConsoleMenu;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 
 public class Main {
