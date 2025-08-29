@@ -1,15 +1,22 @@
 package service;
 
+import api.IDecryptor;
+
 /**
  * Сервис для криптоанализа методом brutForce
  */
 public class BrutForceService {
-    // Не знает о файлах!
+    private IDecryptor decryptor;
+
+    public BrutForceService(IDecryptor decryptor) {
+        this.decryptor = decryptor;
+    }
+
     /**
      * Подбирает ключ шифра Цезаря методом полного перебора.
      *
      * <p>Перебирает все возможные ключи, сравнивая результат дешифрования с известным исходным текстом.
-     * Дешифрование символов делегируется {@link #getDecodingChar(int, char, String)}.
+     * Дешифрование символов делегируется {@link IDecryptor#decryptChar(int, char, String, String)}.
      *
      * @param encryptedText зашифрованный текст
      * @param origText исходный текст для сравнения
@@ -17,9 +24,12 @@ public class BrutForceService {
      *
      * @return дешифрованный текст при успехе или сообщение об ошибке
      *
-     * @see #getDecodingChar(int, char, String) метод дешифрования символов
+     * @implSpec Использует внедренный IDecryptor для дешифрования символов
+     *
+     * @see IDecryptor#decryptChar(int, char, String, String) метод дешифрования символов
+     * @see CaesarCipherService класс, реализующий интерфейс Decryptor
      */
-    public String brutForce(String encryptedText, String origText, String alphabet) {
+    public String brutForce(String encryptedText, String origText, String alphabet, String symbol) {
         // Проверка входных данных
         if (encryptedText == null || origText == null || alphabet == null) {
             return "Ошибка: входные данные не могут быть null";
@@ -31,7 +41,6 @@ public class BrutForceService {
         // Перебираем все возможные ключи
         for (int key = 1; key <= alphabet.length(); key++) {
             StringBuilder decryptedText = new StringBuilder();
-            boolean isMatch = true;
 
             // Расшифровываем текст текущим ключом
             for (int i = 0; i < encryptedText.length(); i++) {
@@ -39,63 +48,32 @@ public class BrutForceService {
                 boolean wasUpper = Character.isUpperCase(encryptedChar);
                 char lowerChar = Character.toLowerCase(encryptedChar);
 
-                char decryptedChar = getDecodingChar(key, lowerChar, alphabet);
+                char decryptedChar = decryptor.decryptChar(key, lowerChar, alphabet, symbol);
 
                 if (wasUpper && decryptedChar != '\0') {
                     decryptedChar = Character.toUpperCase(decryptedChar);
                 }
 
-                char finalChar = decryptedChar != '\0' ? decryptedChar : encryptedChar;
+                // Важно: если символ не из алфавита, оставляем оригинальный
+                char finalChar = (decryptedChar != '\0') ? decryptedChar : encryptedChar;
                 decryptedText.append(finalChar);
-
-                // Проверяем совпадение по мере расшифровки
-                if (i < origText.length() &&
-                        Character.toLowerCase(finalChar) != Character.toLowerCase(origText.charAt(i))) {
-                    isMatch = false;
-                    break;
-                }
             }
 
-            // Проверяем полное совпадение после расшифровки
-            if (isMatch && decryptedText.length() == origText.length()) {
+            // ПРОВЕРЯЕМ ПОЛНОЕ СОВПАДЕНИЕ С ОРИГИНАЛОМ
+            if (decryptedText.toString().equals(origText)) {
                 String successMessage = String.format(
-                        "\nКлюч успешно подобран!\n" +
-                                "Ключ: %d\n", +
-                                key
+                        "\nКлюч успешно подобран! Ключ: %d\n",
+                        key
                 );
                 System.out.println(successMessage);
                 return decryptedText.toString();
             }
 
-            // Вывод текущей попытки (можно закомментировать)
-            //       System.out.printf("Попытка с ключом %2d: %s%n", key, decryptedText);
+            // Для отладки: выводим попытки
+            // System.out.printf("Попытка с ключом %2d: %s%n", key, decryptedText);
         }
 
         System.out.println("\nНе удалось подобрать подходящий ключ.");
         return "Не удалось подобрать ключ";
     }
-
-    /**
-     * Дешифрует один символ сдвигом на key позиций влево по алфавиту.
-     *
-     * @param key ключ дешифрования (количество позиций для обратного сдвига)
-     * @param originChar символ для дешифрования (должен быть в нижнем регистре)
-     * @param alphabet алфавит для дешифрования
-     *
-     * @return дешифрованный символ или '\0' если символ не из алфавита
-     */
-    private static char getDecodingChar(int key, char originChar, String alphabet) {
-        int charEncryptPos = alphabet.indexOf(originChar);
-
-        if (charEncryptPos == -1) {
-            return '\0';
-        }
-
-        int origCharDecodingPos = (charEncryptPos - key) % alphabet.length();
-        if (origCharDecodingPos < 0) {
-            origCharDecodingPos += alphabet.length();
-        }
-        return alphabet.charAt(origCharDecodingPos);
-    }
 }
-

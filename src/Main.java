@@ -1,4 +1,5 @@
 import service.*;
+import api.IDecryptor;
 import view.ConsoleMenu;
 
 import java.security.SecureRandom;
@@ -10,7 +11,10 @@ public class Main {
 
         // 2. Создаем инструменты
         CaesarCipherService caesarCipherService = new CaesarCipherService();
-        BrutForceService brutForceService = new BrutForceService();
+
+        IDecryptor decryptor = caesarCipherService;
+        BrutForceService brutForceService = new BrutForceService(decryptor);
+
         FileService fileService = new FileService();
 
         // 3. Создаем оркестратора и отдаем ему все инструменты
