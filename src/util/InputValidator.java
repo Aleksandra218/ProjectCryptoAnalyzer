@@ -50,7 +50,6 @@ public final class InputValidator {
         return true;
     }
 
-
     public static int choiceMenu() {
         while (true) {
             System.out.print("Введите действие: ");

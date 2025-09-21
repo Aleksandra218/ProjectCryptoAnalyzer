@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
-
 public class FileService {
-
 
     public String readLine(String path) throws IOException {
         Path file = Path.of(path);
@@ -17,7 +15,6 @@ public class FileService {
             throw new FileNotFoundException(path);
         }
     }
-
 
     public void writeLine(String text, String path) throws IOException {
 

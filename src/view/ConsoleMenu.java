@@ -48,7 +48,6 @@ public class ConsoleMenu {
             }
         }
     }
-
     private static void outputMenu() {
         System.out.print("Меню\n" +
                 "1. Шифрование\n" +

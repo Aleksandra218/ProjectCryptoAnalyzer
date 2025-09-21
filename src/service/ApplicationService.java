@@ -57,7 +57,6 @@ public class ApplicationService {
         }
     }
 
-
     public void bruteForceFile(String filePath) {
         try {
             String contentDecoding = fileService.readLine(filePath);

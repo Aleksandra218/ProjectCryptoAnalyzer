@@ -38,7 +38,6 @@ public class BrutForceService {
                 char finalChar = (decryptedChar != '\0') ? decryptedChar : encryptedChar;
                 decryptedText.append(finalChar);
             }
-
             // ПРОВЕРЯЕМ ПОЛНОЕ СОВПАДЕНИЕ С ОРИГИНАЛОМ
             if (decryptedText.toString().equals(origText)) {
                 String successMessage = String.format(

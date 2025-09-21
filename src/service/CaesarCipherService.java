@@ -60,7 +60,6 @@ public class CaesarCipherService implements IDecryptor {
         return encryptedText.toString();
     }
 
-
     private static char getEncryptedChar(int key, char originChar, String alphabet, String symbol) {
         if (Character.isLetter(originChar)) {
             boolean isUpperCase = Character.isUpperCase(originChar);

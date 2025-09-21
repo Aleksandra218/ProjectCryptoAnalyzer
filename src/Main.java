@@ -8,7 +8,6 @@ public class Main {
     public static void main(String[] args) {
         // 1. Создаем зависимость LOW-LEVEL (SecureRandom)
         SecureRandom secureRandom = new SecureRandom();
-
         // 2. Создаем инструменты
         CaesarCipherService caesarCipherService = new CaesarCipherService();
 
