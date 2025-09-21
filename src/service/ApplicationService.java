@@ -6,10 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.SecureRandom;
 
-/**
- *  Задача класса координировать работу всех инструментов для выполнения
- *  большой задачи (например, «зашифровать файл»).
- */
 public class ApplicationService {
 
     private FileService fileService;
@@ -23,13 +19,6 @@ public class ApplicationService {
     private String alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
     private String symbol = ".,:;?!()- ";
 
-    /**
-     * Конструктор сервиса-оркестратора. Принимает все необходимые зависимости.
-     * @param secureRandom генератор случайных чисел для создания ключа шифрования
-     * @param caesarCipherService сервис для шифрования/расшифровки методом Цезаря
-     * @param brutForceService сервис для криптоанализа методом грубой силы
-     * @param fileService сервис для работы с файловой системой (чтение/запись)
-     */
     public ApplicationService(SecureRandom secureRandom, CaesarCipherService caesarCipherService, BrutForceService brutForceService, FileService fileService) {
         this.randomKey = secureRandom.nextInt(1, 43);
         this.caesarCipherService = caesarCipherService;
@@ -37,20 +26,6 @@ public class ApplicationService {
         this.fileService = fileService;
     }
 
-    /**
-     * Шифрует файл с помощью шифра Цезаря со случайным ключом.
-     *
-     * @param filePath путь к исходному файлу
-     *
-     * @implSpec Читает файл, шифрует содержимое, запрашивает путь для сохранения,
-     *           записывает результат и обрабатывает возможные ошибки ввода-вывода.
-     *
-     * @throws IOException при ошибках чтения/записи файлов
-     *
-     * @see CaesarCipherService#encrypt(String, int, String, String) метод шифрования
-     * @see FileService сервис работы с файлами
-     * @see InputValidator проверяет корректность пути при записи файла
-     */
     public void encryptFile(String filePath) {
         try {
             origText = fileService.readLine(filePath);
@@ -66,20 +41,7 @@ public class ApplicationService {
         }
     }
 
-    /**
-     * Расшифровывает файл с помощью шифра Цезаря со случайным ключом.
-     *
-     * @param filePath путь к исходному (зашифрованному) файлу
-     *
-     * @implSpec Читает файл, расшифровывает содержимое, запрашивает путь для сохранения,
-     *           записывает результат и обрабатывает возможные ошибки ввода-вывода.
-     *
-     * @throws IOException при ошибках чтения/записи файлов
-     *
-     * @see CaesarCipherService#decrypt(String, int, String, String) метод расшифровки
-     * @see FileService сервис работы с файлами
-     * @see InputValidator проверяет корректность пути при записи файла
-     */
+
     public void decryptFile(String filePath) {
         try {
             String contentDecoding = fileService.readLine(filePath);
@@ -95,20 +57,7 @@ public class ApplicationService {
         }
     }
 
-    /**
-     * Расшифровывает файл с помощью brutForce путем подбора ключа пока не найдется подходящий ключ
-     *
-     * @param filePath путь к исходному (зашифрованному) файлу
-     *
-     * @implSpec Читает файл, расшифровывает содержимое, запрашивает путь для сохранения,
-     *           записывает результат и обрабатывает возможные ошибки ввода-вывода.
-     *
-     * @throws IOException при ошибках чтения/записи файлов
-     *
-     * @see BrutForceService#brutForce(String, String, String, String) метод расшифровки с помощью brutForce путем подбора ключа
-     * @see FileService сервис работы с файлами
-     * @see InputValidator проверяет корректность пути при записи файла
-     */
+
     public void bruteForceFile(String filePath) {
         try {
             String contentDecoding = fileService.readLine(filePath);

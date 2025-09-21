@@ -15,18 +15,7 @@ public class ConsoleMenu {
         this.applicationService = applicationService;
     }
 
-    /**
-     * Запускает интерактивный главный цикл приложения.
-     *
-     * <p>Обеспечивает взаимодействие с пользователем через консольное меню,
-     * делегируя выполнение операций сервису {@link ApplicationService}.
-     *
-     * @implSpec Бесконечный цикл с отображением меню, валидацией ввода
-     *           и выполнением выбранных криптографических операций.
-     *
-     * @see ApplicationService сервис для выполнения операций
-     * @see InputValidator валидатор пользовательского ввода
-     */
+
     public void start() {
         System.out.println("Добро пожаловать в криптоанализатор!\n");
         System.out.print("\n⚠\uFE0F  Важно:\n" +
@@ -60,9 +49,6 @@ public class ConsoleMenu {
         }
     }
 
-    /**
-     * Выводит меню
-     */
     private static void outputMenu() {
         System.out.print("Меню\n" +
                 "1. Шифрование\n" +
